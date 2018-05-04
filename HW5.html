@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>HW 5</title>
+</head>
+<body>
+<form id="form" name="interview">
+	<p><label>Имя:</label> <input type="text" name="name" placeholder="Name"></p>
+	<p><label>Фамилия:</label> <input type="text" name="lastname" placeholder="Lastname"></p>
+	<p><label>Отчество:</label> <input type="text" name="patronymic" placeholder="Patronymic"></p>
+	<p><label>Пол:</label> <select name="sex">
+		<option value="male" selected>Male</option>
+		<option value="female">Female</option>
+	</select></p>
+	<p><label>Возраст:</label> <input type="text" name="age" placeholder="Age"></p>
+	<p><label>Профессия:</label> <input type="text" name="profession" placeholder="Profession"></p>
+	<div style="cursor: pointer;">Оправить данные</div>
+</form>
+<hr>
+<div id="data" style="display: none">
+	<div><h2>Данные пользователя:</h2></div>
+	<div>Имя: <span id="name"></span></div>
+	<div>Фамилия: <span id="lastname"></span></div>
+	<div>Отчество: <span id="patronymic"></span></div>
+	<div>Пол: <span id="sex"></span></div>
+	<div>Возраст: <span id="age"></span></div>
+	<div>Возраст в днях: <span id="ageInDays"></span></div>
+	<div>На пенсии: <span id="pension"></span></div>
+	<div>Профессия: <span id="profession"></span></div>
+</div>
+
+<script>
+	var ageInDays,
+		pension;
+	form.addEventListener('click', function (event) {
+		var target = event.target;
+		if (target.tagName != 'DIV') return;
+		var form = document.forms.interview,
+			name = form.elements.name.value,
+			lastname = form.elements.lastname.value,
+			patronymic = form.elements.patronymic.value,
+			sex = form.elements.sex.value,
+			age = form.elements.age.value,
+			profession = form.elements.profession.value;
+		if (name.length <= 1
+			|| lastname.length <= 1
+			|| Number(age) <= 0
+			|| profession.length <= 1
+		) {
+			document.getElementById('data').style.display = 'none';
+			alert('Заполните форму');
+		} else {
+			console.log(name.length);
+			if (sex == 'male') {
+				isPension(age, sex);
+			} else {
+				isPension(age, sex);
+			}
+			ageInDays = age * 365;
+			inPage(name, lastname, patronymic, sex, age, profession);
+		}
+	}, false);
+	function isPension(value, gender) {
+		if (Number(value) >= 63 && gender == 'male') {
+			pension = 'ДА';
+		} else if (Number(value) >= 60 && gender == 'female') {
+			pension = 'ДА';
+		} else {
+			pension = 'НЕТ';
+		}
+	}
+	function inPage(name, lastname, patronymic, sex, age, profession) {
+		document.getElementById('data').style.display = 'block';
+		document.getElementById('name').innerHTML = name;
+		document.getElementById('lastname').innerHTML = lastname;
+		document.getElementById('patronymic').innerHTML = patronymic;
+		document.getElementById('sex').innerHTML = sex;
+		document.getElementById('age').innerHTML = age;
+		document.getElementById('profession').innerHTML = profession;
+		document.getElementById('ageInDays').innerHTML = ageInDays;
+		document.getElementById('pension').innerHTML = pension;
+	}
+	
+</script>
+</body>
+</html>
